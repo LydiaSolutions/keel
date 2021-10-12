@@ -49,6 +49,15 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+{{- if and (.Values.proxy.httpProxy) (gt (.Values.proxy.httpProxy | len) 0) }}
+            - name: HTTP_PROXY
+              value: {{ .Values.proxy.httpProxy }}
+{{- end }}
+{{- if and (.Values.proxy.noProxy) (gt (.Values.proxy.noProxy | len) 0) }}
+            - name: NO_PROXY
+              value: {{ .Values.proxy.noProxy }}
+{{- end }}
+
 {{- if .Values.googleApplicationCredentials }}
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /secret/google-application-credentials.json
